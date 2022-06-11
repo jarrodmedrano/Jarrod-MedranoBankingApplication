@@ -1,3 +1,5 @@
+const { useEffect } = React;
+
 function CreateAccount() {
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
@@ -5,6 +7,10 @@ function CreateAccount() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const ctx = React.useContext(UserContext);
+
+  useEffect(() => {
+    clearForm();
+  }, []);
 
   function validate(field, label) {
     if (!field) {
