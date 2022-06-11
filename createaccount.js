@@ -7,14 +7,24 @@ function CreateAccount() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const ctx = React.useContext(UserContext);
+  const [formValid, setFormValid] = React.useState(false);
 
   useEffect(() => {
     clearForm();
   }, []);
 
+  useEffect(() => {
+    if (!email && !password && !name) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+  }, [formValid, email, password, name]);
+
   function validate(field, label) {
     if (!field) {
       setStatus("Error: " + label + " is required");
+      setFormValid(false);
       setTimeout(() => setStatus(""), 3000);
       return false;
     }
@@ -24,6 +34,7 @@ function CreateAccount() {
   function validatePassword(field, label) {
     if (!/^.{8,50}$/.test(field)) {
       setStatus("Error: " + label + " must be at least 8 characters");
+      setFormValid(false);
       setTimeout(() => setStatus(""), 3000);
       return false;
     }
@@ -88,6 +99,7 @@ function CreateAccount() {
             />
             <br />
             <button
+              disabled={!formValid}
               type="submit"
               className="btn btn-light"
               onClick={handleCreate}
