@@ -1,0 +1,19 @@
+{
+  "name": "mal-banco",
+  "version": "1.0.0",
+  "description": "A bank app with no security, for an MIT exercise",
+  "main": "y",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarrodmedrano/banking-app.git"
+  },
+  "author": "Jarrod Medrano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jarrodmedrano/banking-app/issues"
+  },
+  "homepage": "https://github.com/jarrodmedrano/banking-app#readme"
+}
