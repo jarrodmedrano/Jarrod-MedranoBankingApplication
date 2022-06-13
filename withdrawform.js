@@ -6,7 +6,7 @@ function WithdrawForm() {
   const [password, setPassword] = React.useState("");
   const ctx = React.useContext(UserContext);
   const [formValid, setFormValid] = React.useState(false);
-  const [deposit, setDeposit] = React.useState(0);
+  const [withdrawAmount, setWithdrawAmount] = React.useState(0);
   const [totalState, setTotalState] = React.useState(0);
   const [validTransaction, setValidTransaction] = React.useState(false);
 
@@ -15,12 +15,12 @@ function WithdrawForm() {
   }, []);
 
   useEffect(() => {
-    if (!deposit) {
+    if (!withdrawAmount) {
       setFormValid(false);
     } else {
       setFormValid(true);
     }
-  }, [formValid, deposit]);
+  }, [formValid, withdrawAmount]);
 
   useEffect(() => {
     if (status != "") {
@@ -29,6 +29,13 @@ function WithdrawForm() {
   }, [status]);
 
   function validate(field, label) {
+    if (totalState - field < 0) {
+      console.log("what");
+      setStatus("Error: " + label + " is greater than account balance.");
+      setFormValid(false);
+      return false;
+    }
+
     if (!field) {
       setStatus("Error: " + label + " is required");
       setFormValid(false);
@@ -44,7 +51,7 @@ function WithdrawForm() {
   }
 
   function clearForm() {
-    setDeposit("");
+    setWithdrawAmount("");
     setTotalState(0);
     setStatus("");
     setShow(true);
@@ -52,21 +59,21 @@ function WithdrawForm() {
 
   const handleChange = (event) => {
     if (Number(event.target.value) <= 0) {
-      setStatus("Error: deposit must be a positive number");
+      setStatus("Error: withdraw must be a positive number");
       return setFormValid(false);
     } else if (!/^-?\d+\.?\d*$/.test(Number(event.target.value))) {
-      setStatus("Error: deposit must be a number");
+      setStatus("Error: withdraw must be a number");
       return setFormValid(false);
     } else {
-      setDeposit(Number(event.target.value));
+      setWithdrawAmount(Number(event.target.value));
     }
   };
 
   const handleSubmit = (event) => {
-    if (!validate(deposit, "deposit")) return;
-    let newTotal = totalState + deposit;
+    if (!validate(withdrawAmount, "withdraw")) return;
+    let newTotal = totalState - withdrawAmount;
     setTotalState(newTotal);
-    setStatus(`Deposited $${deposit} successfully`);
+    setStatus(`Withdrew $${withdrawAmount} successfully`);
     setValidTransaction(false);
     event.preventDefault();
   };
@@ -79,9 +86,9 @@ function WithdrawForm() {
           <input
             type="input"
             className="form-control"
-            id="deposit"
-            placeholder="Enter deposit amount"
-            value={deposit}
+            id="withdraw"
+            placeholder="Enter withdraw amount"
+            value={withdrawAmount}
             onChange={handleChange}
           />
           <button
@@ -90,7 +97,7 @@ function WithdrawForm() {
             className="btn btn-light"
             onClick={handleSubmit}
           >
-            Deposit
+            Withdraw
           </button>
           <button
             disabled={!formValid}
