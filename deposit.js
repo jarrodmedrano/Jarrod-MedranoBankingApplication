@@ -1,5 +1,10 @@
-function Deposit(){
+function Deposit() {
   return (
-    <h1>Deposit</h1>
-  )
+    <Card
+      txtcolor="black"
+      header="Deposit Money"
+      text="Worry not. Your money is safe with Bad Bank."
+      body={<DepositForm />}
+    />
+  );
 }
