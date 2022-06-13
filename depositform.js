@@ -8,7 +8,6 @@ function DepositForm() {
   const [formValid, setFormValid] = React.useState(false);
   const [deposit, setDeposit] = React.useState(0);
   const [totalState, setTotalState] = React.useState(0);
-  const [validTransaction, setValidTransaction] = React.useState(false);
 
   useEffect(() => {
     clearForm();
@@ -67,7 +66,7 @@ function DepositForm() {
     let newTotal = totalState + deposit;
     setTotalState(newTotal);
     setStatus(`Deposited $${deposit} successfully`);
-    setValidTransaction(false);
+    setFormValid(false);
     event.preventDefault();
   };
 

@@ -9,6 +9,7 @@ function WithdrawForm() {
   const [withdrawAmount, setWithdrawAmount] = React.useState(0);
   const [totalState, setTotalState] = React.useState(0);
   const [validTransaction, setValidTransaction] = React.useState(false);
+  const totalContext = React.useContext(TotalContext);
 
   useEffect(() => {
     clearForm();
@@ -30,7 +31,6 @@ function WithdrawForm() {
 
   function validate(field, label) {
     if (totalState - field < 0) {
-      console.log("what");
       setStatus("Error: " + label + " is greater than account balance.");
       setFormValid(false);
       return false;
