@@ -1,5 +1,10 @@
-function Withdraw(){
+function Withdraw() {
   return (
-    <h1>Withdraw</h1>
-  )
+    <Card
+      txtcolor="black"
+      header="Withdraw Money"
+      text="If you really want to."
+      body={<WithdrawForm />}
+    />
+  );
 }

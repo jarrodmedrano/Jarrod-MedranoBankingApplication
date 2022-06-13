@@ -3,7 +3,7 @@ function Deposit() {
     <Card
       txtcolor="black"
       header="Deposit Money"
-      text="Worry not. Your money is safe with Bad Bank."
+      text="Worry not. Your money is safe with Bad Bank!"
       body={<DepositForm />}
     />
   );

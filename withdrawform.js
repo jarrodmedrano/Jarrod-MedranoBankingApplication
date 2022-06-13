@@ -1,4 +1,4 @@
-function DepositForm() {
+function WithdrawForm() {
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
   const [name, setName] = React.useState("");
