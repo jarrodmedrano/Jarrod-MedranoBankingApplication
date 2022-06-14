@@ -1,7 +1,14 @@
 const UsersContext = React.createContext({});
 
 const UserContextProvider = (props) => {
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = React.useState([
+    {
+      name: "abel",
+      email: "abel@mit.edu",
+      password: "secretsecretsecret",
+      balance: 100,
+    },
+  ]);
   const loadUsers = async () => {
     userDispatch({ type: "FETCHING_USERS", fetching: true });
     try {

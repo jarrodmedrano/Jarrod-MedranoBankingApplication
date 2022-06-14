@@ -21,11 +21,16 @@ function CreateAccount() {
     }
   }, [formValid, email, password, name]);
 
+  useEffect(() => {
+    if (status !== "") {
+      setTimeout(() => setStatus(""), 3000);
+    }
+  }, [status]);
+
   function validate(field, label) {
     if (!field) {
       setStatus("Error: " + label + " is required");
       setFormValid(false);
-      setTimeout(() => setStatus(""), 3000);
       return false;
     }
     return true;
@@ -35,14 +40,12 @@ function CreateAccount() {
     if (!/^.{8,50}$/.test(field)) {
       setStatus("Error: " + label + " must be at least 8 characters");
       setFormValid(false);
-      setTimeout(() => setStatus(""), 3000);
       return false;
     }
     return true;
   }
 
   function handleCreate() {
-    console.log(name, email, password);
     if (!validate(name, "name")) return;
     if (!validate(email, "email")) return;
     if (!validatePassword(password, "password")) return;
@@ -109,7 +112,9 @@ function CreateAccount() {
           </>
         ) : (
           <>
-            <h5>Success</h5>
+            <div className="form-group">
+              <h5>Success</h5>
+            </div>
             <button type="submit" className="btn btn-light" onClick={clearForm}>
               Add another account
             </button>
