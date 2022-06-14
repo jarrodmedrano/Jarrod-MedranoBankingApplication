@@ -1,4 +1,6 @@
 function DepositForm() {
+  const ctxCurrent = React.useContext(CurrentUserContext);
+
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
   const [name, setName] = React.useState("");
@@ -7,11 +9,13 @@ function DepositForm() {
   const ctx = React.useContext(UserContext);
   const [formValid, setFormValid] = React.useState(false);
   const [deposit, setDeposit] = React.useState(0);
-  const [totalState, setTotalState] = React.useState(0);
+  const [totalState, setTotalState] = React.useState(
+    ctxCurrent.currentUser.balance || 0
+  );
 
   useEffect(() => {
-    clearForm();
-  }, []);
+    setTotalState(ctxCurrent.currentUser.balance);
+  }, [ctxCurrent?.currentUser]);
 
   useEffect(() => {
     if (!deposit) {
@@ -44,7 +48,7 @@ function DepositForm() {
 
   function clearForm() {
     setDeposit("");
-    setTotalState(0);
+    setTotalState(ctxCurrent.currentUser.balance || 0);
     setStatus("");
     setShow(true);
   }
@@ -64,7 +68,9 @@ function DepositForm() {
   const handleSubmit = (event) => {
     if (!validate(deposit, "deposit")) return;
     let newTotal = totalState + deposit;
-    setTotalState(newTotal);
+    ctxCurrent.setCurrentUser({ ...ctxCurrent.currentUser, balance: newTotal });
+
+    // setTotalState(newTotal);
     setStatus(`Deposited $${deposit} successfully`);
     setFormValid(false);
     event.preventDefault();
