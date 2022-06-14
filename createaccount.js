@@ -49,7 +49,7 @@ function CreateAccount() {
     if (!validate(name, "name")) return;
     if (!validate(email, "email")) return;
     if (!validatePassword(password, "password")) return;
-    ctx.users.push({ name, email, password, balance: 100 });
+    ctx.addUser({ name, email, password, balance: 100 });
     setShow(false);
   }
 

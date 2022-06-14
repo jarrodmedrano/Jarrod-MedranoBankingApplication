@@ -1,5 +1,5 @@
 function AllData() {
-  const ctx = React.useContext(UsersContext);
+  const ctx = React.useContext(UserContext);
   return (
     <>
       <h5>All Data in Store</h5>

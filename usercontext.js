@@ -1,4 +1,4 @@
-const UsersContext = React.createContext({});
+const UserContext = React.createContext({});
 
 const UserContextProvider = (props) => {
   const [users, setUsers] = React.useState([
@@ -9,11 +9,10 @@ const UserContextProvider = (props) => {
       balance: 100,
     },
   ]);
-  const loadUsers = async () => {
+  const addUser = async (user) => {
     userDispatch({ type: "FETCHING_USERS", fetching: true });
     try {
-      // const user = await getUsersApi();
-      const newUsers = users.data.sort((a, b) => sortStrings(a.name, b.name));
+      const newUsers = user;
       userDispatch({ type: "ADD_USERS", newUsers });
       userDispatch({
         type: "FETCHING_USERS",
@@ -31,7 +30,7 @@ const UserContextProvider = (props) => {
       case "ADD_USERS":
         return {
           ...state,
-          users: action.newUsers,
+          users: { ...users, ...action.newUsers },
         };
       case "FETCHING_USERS":
         return { ...state, fetching: action.fetching };
@@ -47,11 +46,9 @@ const UserContextProvider = (props) => {
     users,
     userData,
     setUsers,
-    loadUsers,
+    addUser,
   };
   return (
-    <UsersContext.Provider value={value}>
-      {props.children}
-    </UsersContext.Provider>
+    <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
   );
 };

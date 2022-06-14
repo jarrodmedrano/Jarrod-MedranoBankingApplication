@@ -6,7 +6,7 @@ function LoginForm() {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const ctx = React.useContext(UsersContext);
+  const ctx = React.useContext(UserContext);
   const ctxCurrent = React.useContext(CurrentUserContext);
   const [currentUser, CurrentUser] = useStickyState(null, "user");
 

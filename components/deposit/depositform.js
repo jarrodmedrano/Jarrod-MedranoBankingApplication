@@ -6,7 +6,7 @@ function DepositForm() {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const ctx = React.useContext(UserContext);
+  const ctx = React.useContext(UserContextProvider);
   const [formValid, setFormValid] = React.useState(false);
   const [deposit, setDeposit] = React.useState(0);
   const [totalState, setTotalState] = React.useState(

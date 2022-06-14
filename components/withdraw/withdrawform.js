@@ -13,7 +13,6 @@ function WithdrawForm() {
   );
   const [validTransaction, setValidTransaction] = React.useState(false);
   const totalContext = React.useContext(TotalContext);
-  const ctx = React.useContext(CurrentUserContext);
 
   useEffect(() => {
     setTotalState(ctxCurrent.currentUser.balance);
