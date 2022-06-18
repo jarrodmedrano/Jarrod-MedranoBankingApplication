@@ -1,5 +1,11 @@
-function Balance(){
+function Balance() {
+  const ctxCurrent = React.useContext(CurrentUserContext);
+
   return (
-    <h1>Balance</h1>
-  )
+    <Card
+      bgcolor="primary"
+      header="Balance"
+      body={`Total Balance: $${ctxCurrent.currentUser.balance}`}
+    />
+  );
 }

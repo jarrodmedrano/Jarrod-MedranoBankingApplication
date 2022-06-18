@@ -1,12 +1,7 @@
 function DepositForm() {
   const ctxCurrent = React.useContext(CurrentUserContext);
 
-  const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const ctx = React.useContext(UserContext);
   const [formValid, setFormValid] = React.useState(false);
   const [deposit, setDeposit] = React.useState(0);
   const [totalState, setTotalState] = React.useState(
@@ -50,7 +45,6 @@ function DepositForm() {
     setDeposit("");
     setTotalState(ctxCurrent.currentUser.balance || 0);
     setStatus("");
-    setShow(true);
   }
 
   const handleChange = (event) => {

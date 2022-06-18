@@ -1,18 +1,13 @@
 function WithdrawForm() {
   const ctxCurrent = React.useContext(CurrentUserContext);
 
-  const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [formValid, setFormValid] = React.useState(false);
   const [withdrawAmount, setWithdrawAmount] = React.useState(0);
   const [totalState, setTotalState] = React.useState(
     ctxCurrent.currentUser.balance || 0
   );
   const [validTransaction, setValidTransaction] = React.useState(false);
-  const totalContext = React.useContext(TotalContext);
 
   useEffect(() => {
     setTotalState(ctxCurrent.currentUser.balance);
@@ -57,7 +52,6 @@ function WithdrawForm() {
     setWithdrawAmount("");
     setTotalState(ctxCurrent.currentUser.balance || 0);
     setStatus("");
-    setShow(true);
   }
 
   const handleChange = (event) => {
