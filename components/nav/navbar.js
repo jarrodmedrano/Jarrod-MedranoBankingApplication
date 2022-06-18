@@ -2,7 +2,7 @@ const useLocation = ReactRouterDOM.useLocation;
 
 const NavBar = (props) => {
   const location = useLocation();
-  console.log("the location", location);
+  const fooRef = React.useRef(null);
 
   const routes = [
     {
@@ -54,6 +54,12 @@ const NavBar = (props) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        {/* <ReactTooltip text="Tooltip text">
+          <button className="btn btn-primary" type="button">
+            My button
+          </button>
+        </ReactTooltip> */}
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             {routes.map((route) => {

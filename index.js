@@ -1,4 +1,3 @@
-
 function Spa() {
   return (
     <HashRouter>
@@ -15,6 +14,7 @@ function Spa() {
               <Route path="/balance/" component={Balance} />
               <Route path="/alldata/" component={AllData} />
             </div>
+            <ToolTip />
           </TotalContext.Provider>
         </CurrentUserContextProvider>
       </UserContextProvider>
