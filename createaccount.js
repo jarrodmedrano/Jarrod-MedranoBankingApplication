@@ -1,6 +1,8 @@
 const { useEffect } = React;
 
 function CreateAccount() {
+  const ctxCurrent = React.useContext(CurrentUserContext);
+
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
   const [name, setName] = React.useState("");
@@ -60,7 +62,9 @@ function CreateAccount() {
     setShow(true);
   }
 
-  return (
+  return ctxCurrent.currentUser ? (
+    <Logout />
+  ) : (
     <Card
       bgcolor="primary"
       header="Create Account"
