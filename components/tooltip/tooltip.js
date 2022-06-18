@@ -1,8 +1,8 @@
-const ToolTip = () => {
+const ToolTip = (props) => {
+  const { showToolTip, toolTipContent, toolTipTarget } = props;
   const [bubblePosition, setBubblePosition] = React.useState(null);
   const [toolTipStyle, setToolTipStyle] = React.useState(null);
   const toolTipRef = React.useRef(null);
-  const [showToolTip, setShowToolTip] = React.useState(false);
 
   React.useEffect(() => {
     if (toolTipRef && toolTipRef.current) {
@@ -21,39 +21,53 @@ const ToolTip = () => {
     const offset = 5;
     const offsetTwice = 10;
     return {
-      top: toolTipTarget.bottom + offsetTwice,
-      left:
-        toolTipTarget.left -
-        (bubblePosition ? bubblePosition.width / 2 : 0) +
-        offset,
+      top: toolTipTarget.top,
+      left: toolTipTarget.left - toolTipTarget.width - 200,
     };
   };
 
   useEffect(() => {
-    if (showToolTip) {
+    if (showToolTip && toolTipTarget) {
       setToolTipStyle(stylePos());
     }
-  }, [bubblePosition, showToolTip]);
+  }, [bubblePosition, showToolTip, toolTipTarget]);
 
   if (!showToolTip) {
     return null;
   }
 
-  const toolTipClass = classNames(styles.toolTip, styles[toolTipPlacement]);
-
-  if (!toolTipItems) {
+  if (!toolTipContent) {
     return <></>;
   }
 
-  return React.createPortal(
+  const styles = {
+    toolTip: {
+      backgroundColor: "black",
+      color: "white",
+      maxWidth: "200px",
+      whiteSpace: "pre-wrap",
+      listStyle: "none",
+      fontSize: "12px",
+      margin: "0",
+      padding: "0.5rem",
+      position: "fixed",
+      zIndex: "99999",
+      borderRadius: "3px",
+      position: "absolute",
+    },
+  };
+
+  const toolTipClass = `${styles.toolTip}`;
+
+  return ReactDOM.createPortal(
     <div
       ref={toolTipRef}
       role="tooltip"
       className={toolTipClass}
-      style={toolTipStyle}
+      style={(toolTipStyle, styles.toolTip)}
       onClick={() => setShowToolTip(!showToolTip)}
     >
-      {toolTipItems}
+      {toolTipContent}
     </div>,
     document.getElementById("tooltip")
   );
