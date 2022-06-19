@@ -8,7 +8,6 @@ function LoginForm() {
   const [password, setPassword] = React.useState("");
   const ctx = React.useContext(UserContext);
   const ctxCurrent = React.useContext(CurrentUserContext);
-  const [currentUser, CurrentUser] = useStickyState(null, "user");
 
   const [formValid, setFormValid] = React.useState(false);
 
@@ -30,7 +29,7 @@ function LoginForm() {
       setFormValid(false);
       return false;
     }
-    if (!ctx.users.find((item) => item.email === field)) {
+    if (!ctx.userData.users.find((item) => item.email === field)) {
       setStatus("Error: " + label + " is incorrect");
       setFormValid(false);
       return false;
@@ -44,7 +43,7 @@ function LoginForm() {
       setFormValid(false);
       return false;
     }
-    if (!ctx.users.find((item) => item.password === field)) {
+    if (!ctx.userData.users.find((item) => item.password === field)) {
       setStatus("Error: " + label + " is incorrect");
       setFormValid(false);
       return false;
@@ -56,7 +55,7 @@ function LoginForm() {
     if (!validate(email, "email")) return;
     if (!validatePassword(password, "password")) return;
     setShow(false);
-    const foundUser = ctx.users.find(
+    const foundUser = ctx.userData.users.find(
       (item) => item.password === password && item.email === email
     );
 

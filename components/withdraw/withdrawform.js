@@ -5,12 +5,12 @@ function WithdrawForm() {
   const [formValid, setFormValid] = React.useState(false);
   const [withdrawAmount, setWithdrawAmount] = React.useState(0);
   const [totalState, setTotalState] = React.useState(
-    ctxCurrent.currentUser.balance || 0
+    ctxCurrent?.currentUser?.balance || 0
   );
   const [validTransaction, setValidTransaction] = React.useState(false);
 
   useEffect(() => {
-    setTotalState(ctxCurrent.currentUser.balance);
+    setTotalState(ctxCurrent?.currentUser?.balance || 0);
   }, [ctxCurrent?.currentUser]);
 
   useEffect(() => {

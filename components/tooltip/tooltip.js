@@ -18,8 +18,6 @@ const ToolTip = (props) => {
   }, [showToolTip]);
 
   const stylePos = () => {
-    const offset = 5;
-    const offsetTwice = 10;
     return {
       top: toolTipTarget.top,
       left: toolTipTarget.left - toolTipTarget.width - 200,

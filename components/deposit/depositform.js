@@ -5,11 +5,11 @@ function DepositForm() {
   const [formValid, setFormValid] = React.useState(false);
   const [deposit, setDeposit] = React.useState(0);
   const [totalState, setTotalState] = React.useState(
-    ctxCurrent.currentUser.balance || 0
+    ctxCurrent?.currentUser?.balance || 0
   );
 
   useEffect(() => {
-    setTotalState(ctxCurrent.currentUser.balance);
+    setTotalState(ctxCurrent?.currentUser?.balance || 0);
   }, [ctxCurrent?.currentUser]);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function DepositForm() {
 
   function clearForm() {
     setDeposit("");
-    setTotalState(ctxCurrent.currentUser.balance || 0);
+    setTotalState(ctxCurrent?.currentUser?.balance || 0);
     setStatus("");
   }
 

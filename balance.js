@@ -3,9 +3,9 @@ function Balance() {
 
   return (
     <Card
-      bgcolor="primary"
+      bgcolor="success"
       header="Balance"
-      body={`Total Balance: $${ctxCurrent.currentUser.balance}`}
+      body={`Total Balance: $${ctxCurrent?.currentUser?.balance || 0}`}
     />
   );
 }

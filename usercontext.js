@@ -1,14 +1,6 @@
 const UserContext = React.createContext({});
 
 const UserContextProvider = (props) => {
-  const [users, setUsers] = React.useState([
-    {
-      name: "abel",
-      email: "abel@mit.edu",
-      password: "secretsecretsecret",
-      balance: 100,
-    },
-  ]);
   const addUser = async (user) => {
     userDispatch({ type: "FETCHING_USERS", fetching: true });
     try {
@@ -30,7 +22,7 @@ const UserContextProvider = (props) => {
       case "ADD_USERS":
         return {
           ...state,
-          users: { ...users, ...action.newUsers },
+          users: [...state.users, action.newUsers],
         };
       case "FETCHING_USERS":
         return { ...state, fetching: action.fetching };
@@ -43,9 +35,7 @@ const UserContextProvider = (props) => {
     fetching: true,
   });
   const value = {
-    users,
     userData,
-    setUsers,
     addUser,
   };
   return (
