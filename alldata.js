@@ -2,7 +2,11 @@ function AllData() {
   const ctx = React.useContext(UserContext);
   return (
     <>
-      <AllUsers></AllUsers>
+      {ctx?.userData?.users.length > 0 === true ? (
+        <AllUsers></AllUsers>
+      ) : (
+        <p>No Users Currently</p>
+      )}
     </>
   );
 }
