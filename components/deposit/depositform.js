@@ -7,9 +7,14 @@ function DepositForm() {
   const [totalState, setTotalState] = React.useState(
     ctxCurrent?.currentUser?.balance || 0
   );
+  const ctx = React.useContext(UserContext);
 
   useEffect(() => {
-    setTotalState(ctxCurrent?.currentUser?.balance || 0);
+    if (ctxCurrent?.currentUser) {
+      console.log("the current", ctxCurrent?.currentUser);
+      setTotalState(ctxCurrent?.currentUser?.balance || 0);
+      ctx.updateUser(ctxCurrent?.currentUser);
+    }
   }, [ctxCurrent?.currentUser]);
 
   useEffect(() => {
@@ -62,8 +67,8 @@ function DepositForm() {
   const handleSubmit = (event) => {
     if (!validate(deposit, "deposit")) return;
     let newTotal = totalState + deposit;
+    console.log("curren", { ...ctxCurrent.currentUser, balance: newTotal });
     ctxCurrent.setCurrentUser({ ...ctxCurrent.currentUser, balance: newTotal });
-
     // setTotalState(newTotal);
     setStatus(`Deposited $${deposit} successfully`);
     setFormValid(false);

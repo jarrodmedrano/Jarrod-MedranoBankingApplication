@@ -2,13 +2,13 @@ const { useEffect } = React;
 
 function CreateAccount() {
   const ctxCurrent = React.useContext(CurrentUserContext);
+  const ctx = React.useContext(UserContext);
 
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const ctx = React.useContext(UserContext);
   const [formValid, setFormValid] = React.useState(false);
 
   useEffect(() => {
@@ -29,9 +29,30 @@ function CreateAccount() {
     }
   }, [status]);
 
-  function validate(field, label) {
+  function validateName(field, label) {
     if (!field) {
       setStatus("Error: " + label + " is required");
+      setFormValid(false);
+      return false;
+    }
+
+    if (ctx.userData.users.find((id) => id.name === field)) {
+      setStatus("Error: " + label + " is already used");
+      setFormValid(false);
+      return false;
+    }
+    return true;
+  }
+
+  function validateEmail(field, label) {
+    if (!field) {
+      setStatus("Error: " + label + " is required");
+      setFormValid(false);
+      return false;
+    }
+
+    if (ctx.userData.users.find((id) => id.email === field)) {
+      setStatus("Error: " + label + " is already used");
       setFormValid(false);
       return false;
     }
@@ -48,8 +69,8 @@ function CreateAccount() {
   }
 
   function handleCreate() {
-    if (!validate(name, "name")) return;
-    if (!validate(email, "email")) return;
+    if (!validateName(name, "name")) return;
+    if (!validateEmail(email, "email")) return;
     if (!validatePassword(password, "password")) return;
     ctx.addUser({ name, email, password, balance: 100 });
     setShow(false);

@@ -70,7 +70,8 @@ function WithdrawForm() {
     if (!validate(withdrawAmount, "withdraw")) return;
     let newTotal = totalState - withdrawAmount;
     ctxCurrent.setCurrentUser({ ...ctxCurrent.currentUser, balance: newTotal });
-    // setTotalState(newTotal);
+    ctx.updateUser({ ...ctxCurrent.currentUser, balance: newTotal });
+
     setStatus(`Withdrew $${withdrawAmount} successfully`);
     setValidTransaction(false);
     event.preventDefault();
