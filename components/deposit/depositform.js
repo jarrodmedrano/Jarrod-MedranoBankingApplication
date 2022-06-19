@@ -67,7 +67,6 @@ function DepositForm() {
   const handleSubmit = (event) => {
     if (!validate(deposit, "deposit")) return;
     let newTotal = totalState + deposit;
-    console.log("curren", { ...ctxCurrent.currentUser, balance: newTotal });
     ctxCurrent.setCurrentUser({ ...ctxCurrent.currentUser, balance: newTotal });
     // setTotalState(newTotal);
     setStatus(`Deposited $${deposit} successfully`);

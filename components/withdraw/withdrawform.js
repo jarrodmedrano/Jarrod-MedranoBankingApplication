@@ -1,5 +1,6 @@
 function WithdrawForm() {
   const ctxCurrent = React.useContext(CurrentUserContext);
+  const ctx = React.useContext(UserContext);
 
   const [status, setStatus] = React.useState("");
   const [formValid, setFormValid] = React.useState(false);
@@ -10,7 +11,10 @@ function WithdrawForm() {
   const [validTransaction, setValidTransaction] = React.useState(false);
 
   useEffect(() => {
-    setTotalState(ctxCurrent?.currentUser?.balance || 0);
+    if (ctxCurrent?.currentUser) {
+      setTotalState(ctxCurrent?.currentUser?.balance || 0);
+      ctx.updateUser(ctxCurrent?.currentUser);
+    }
   }, [ctxCurrent?.currentUser]);
 
   useEffect(() => {
@@ -70,8 +74,6 @@ function WithdrawForm() {
     if (!validate(withdrawAmount, "withdraw")) return;
     let newTotal = totalState - withdrawAmount;
     ctxCurrent.setCurrentUser({ ...ctxCurrent.currentUser, balance: newTotal });
-    ctx.updateUser({ ...ctxCurrent.currentUser, balance: newTotal });
-
     setStatus(`Withdrew $${withdrawAmount} successfully`);
     setValidTransaction(false);
     event.preventDefault();
