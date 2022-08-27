@@ -1,6 +1,6 @@
 function AllUsers(props) {
   const ctx = React.useContext(UserContext);
-
+  console.log("me", ctx?.userData);
   return (
     <>
       {ctx?.userData?.users?.map((user) => {

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "lite-server",
-    "start": "npm run start"
+    "server": "node index.js",
+    "start": "concurrently npm:server"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,12 @@
   "homepage": "https://github.com/jarrodmedrano/banking-app#readme",
   "devDependencies": {
     "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "concurrently": "^7.3.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "lowdb": "^1.0.0",
+    "mongodb": "^3.6.2"
   }
 }

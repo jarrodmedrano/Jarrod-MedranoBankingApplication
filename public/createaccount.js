@@ -72,7 +72,8 @@ function CreateAccount() {
     if (!validateName(name, "name")) return;
     if (!validateEmail(email, "email")) return;
     if (!validatePassword(password, "password")) return;
-    ctx.addUser({ name, email, password, balance: 100 });
+
+    ctx.addUser({ name, email, password });
     setShow(false);
   }
 
