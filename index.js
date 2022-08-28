@@ -1,8 +1,11 @@
-var express = require("express");
+const express = require("express");
 var app = express();
 var cors = require("cors");
 var dal = require("./dal.js");
-const e = require("express");
+const { check, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("./models/User");
 
 // used to serve static files from public directory
 app.use(express.static("public"));
@@ -10,26 +13,56 @@ app.use(cors());
 
 // create user account
 app.get("/account/create/:name/:email/:password", async function (req, res) {
+  const { name: username, email, password } = req.params;
+
   try {
-    // check if account exists
-    const result = await dal.find(req.params.email);
-    console.log("result", result);
-    if (!result) {
-      // if (result && users?.length > 0) {
-      console.log("User already in exists");
-      res.send("User already in exists");
-    } else {
-      // else create user
-
-      const user = dal.create(
-        req.params.name,
-        req.params.email,
-        req.params.password
-      );
-
-      console.log(user);
-      res.send(user);
+    const foundUser = await User.findOne({
+      email,
+    });
+    if (foundUser) {
+      return res.status(400).json({
+        msg: "User Already Exists",
+      });
     }
+
+    const user = new User({
+      username,
+      email,
+      password,
+    });
+
+    console.log("me", user);
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      "randomString",
+      {
+        expiresIn: 10000,
+      },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({
+          token,
+        });
+      }
+    );
+
+    user.save();
+
+    dal.create(user);
+
+    console.log(user);
+    res.send(user);
+    // }
   } catch (err) {
     console.log("there was an error", err);
   }

@@ -1,22 +1,38 @@
 const MongoClient = require("mongodb").MongoClient;
+const mongoose = require("mongoose");
+
 const url = "mongodb://localhost:27017";
 let db = null;
 
 // connect to mongo
 MongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
   console.log("Connected successfully to db server");
+  mongoose.connect(url, { useNewUrlParser: true });
 
   // connect to myproject database
   db = client.db("myproject");
 });
 
+// async function main() {
+//   try {
+//     console.log("the client", client);
+//     db = client.db("myproject");
+
+//     console.log("Connected successfully to db server");
+//   } catch (err) {
+//     console.log("there was an error", err);
+//   }
+// }
+
+// main();
+
 // create user account using the collection.insertOne function
-function create(name, email, password) {
+function create(newUser) {
   // TODO: populate this function based off the video
   return new Promise((resolve, reject) => {
     const user = db
       .collection("users")
-      .insertOne({ name, email, password })
+      .insertOne(newUser)
       .then((result) => {
         console.log(result);
       })
