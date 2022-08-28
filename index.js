@@ -75,12 +75,8 @@ app.get("/account/login/:email/:password", async function (req, res) {
     const foundUser = await dal.find(email);
 
     if (foundUser.length > 0) {
-      console.log("i am found", foundUser[0]);
-      // const isMatch = await bcrypt.compare(password, foundUser.password);
-
       const isMatch = await bcrypt.compare(password, foundUser[0]?.password);
 
-      console.log("is match", isMatch);
       if (!isMatch)
         return res.status(400).json({
           message: "Incorrect Password !",
@@ -99,7 +95,6 @@ app.get("/account/login/:email/:password", async function (req, res) {
           expiresIn: 3600,
         },
         (err, token) => {
-          console.log("is this an error", err);
           if (err) throw err;
           res.status(200).json({
             token,
@@ -112,8 +107,6 @@ app.get("/account/login/:email/:password", async function (req, res) {
       });
     }
   } catch (e) {
-    console.error("SOME ERROR LOGGING IN 2", e);
-    console.error(e);
     res.status(500).json({
       message: "Server Error",
     });
