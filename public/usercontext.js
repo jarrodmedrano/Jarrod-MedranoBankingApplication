@@ -7,6 +7,18 @@ const UserContextProvider = (props) => {
     const newUsers = data;
     userDispatch({ type: "ALL_USERS", newUsers });
   };
+  const loginUser = async (user) => {
+    try {
+      const newUser = user;
+      userDispatch({ type: "LOGIN_USERS", newUser });
+    } catch (err) {}
+  };
+  const logoutUser = async (user) => {
+    try {
+      const newUser = user;
+      userDispatch({ type: "LOGOUT_USERS", newUser });
+    } catch (err) {}
+  };
   const updateUser = async (user) => {
     try {
       const newUsers = user;
@@ -15,19 +27,28 @@ const UserContextProvider = (props) => {
   };
   const addUser = async (user) => {
     try {
-      // const newUsers = user;
       const url = `/account/create/${user.name}/${user.email}/${user.password}`;
       (async () => {
         const res = await fetch(url);
         const data = await res.json();
         console.log("data", data);
       })();
-
-      // userDispatch({ type: "ADD_USERS", newUsers });
     } catch (err) {}
   };
   const userReducer = (state, action) => {
     switch (action.type) {
+      case "LOGIN_USER":
+        console.log("actions", action);
+        return {
+          ...state,
+          loggedIn: [...action.newUser],
+        };
+      case "LOGOUT_USER":
+        console.log("actions", action);
+        return {
+          ...state,
+          loggedIn: [],
+        };
       case "ALL_USERS":
         console.log("actions", action);
         return {
@@ -62,6 +83,7 @@ const UserContextProvider = (props) => {
     addUser,
     updateUser,
     getAllUsers,
+    loginUser,
   };
   return (
     <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
