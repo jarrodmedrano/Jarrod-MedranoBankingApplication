@@ -69,19 +69,53 @@ app.get("/account/create/:name/:email/:password", async function (req, res) {
 });
 
 // login user
-app.get("/account/login/:email/:password", function (req, res) {
-  dal.find(req.params.email).then((user) => {
-    // if user exists, check password
-    if (user.length > 0) {
-      if (user[0].password === req.params.password) {
-        res.send(user[0]);
-      } else {
-        res.send("Login failed: wrong password");
-      }
+app.get("/account/login/:email/:password", async function (req, res) {
+  const { email, password } = req.params;
+  console.log("me", email);
+
+  try {
+    const foundUser = await dal.find(email);
+
+    if (foundUser.length > 0) {
+      const isMatch = await bcrypt.compare(password, foundUser.password);
+      if (!isMatch)
+        return res.status(400).json({
+          message: "Incorrect Password !",
+        });
+
+      const payload = {
+        user: {
+          id: foundUser.id,
+        },
+      };
+
+      console.log("payload", payload);
+
+      jwt.sign(
+        payload,
+        "randomString",
+        {
+          expiresIn: 3600,
+        },
+        (err, token) => {
+          console.log("is this an error", err);
+          if (err) throw err;
+          res.status(200).json({
+            token,
+          });
+        }
+      );
     } else {
-      res.send("Login failed: user not found");
+      res.status(500).json({
+        message: "Login failed: user not found",
+      });
     }
-  });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
 });
 
 // find user account

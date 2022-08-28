@@ -9,8 +9,18 @@ const UserContextProvider = (props) => {
   };
   const loginUser = async (user) => {
     try {
-      const newUser = user;
-      userDispatch({ type: "LOGIN_USERS", newUser });
+      console.log("this user", user);
+      const loginUser = user;
+      const url = `/account/login/${user.email}/${encodeURIComponent(
+        user.password
+      )}`;
+      (async () => {
+        const res = await fetch(url);
+        const data = await res.json();
+        console.log("data", data);
+      })();
+
+      userDispatch({ type: "LOGIN_USERS", loginUser });
     } catch (err) {}
   };
   const logoutUser = async (user) => {
@@ -27,7 +37,9 @@ const UserContextProvider = (props) => {
   };
   const addUser = async (user) => {
     try {
-      const url = `/account/create/${user.name}/${user.email}/${user.password}`;
+      const url = `/account/create/${user.name}/${
+        user.email
+      }/${encodeURIComponent(user.password)}`;
       (async () => {
         const res = await fetch(url);
         const data = await res.json();
@@ -41,7 +53,7 @@ const UserContextProvider = (props) => {
         console.log("actions", action);
         return {
           ...state,
-          loggedIn: [...action.newUser],
+          loggedIn: [...action.loginUser],
         };
       case "LOGOUT_USER":
         console.log("actions", action);

@@ -42,42 +42,14 @@ function LoginForm() {
     return true;
   }
 
-  function handleLogin() {
-    //TODO: validate with token
+  async function handleLogin() {
     ctx.getAllUsers();
 
-    console.log("email", email);
-    console.log("password", password);
     if (!validate(email, "email")) return;
-    // if (!validatePassword(password, "password")) return;
-    console.log("users", ctx.userData.users);
-    const foundUser = ctx.userData.users.find(
-      (item) => item.password === password && item.email === email
-    );
-    if (!foundUser) {
-      setStatus("No such user exists");
-      setFormValid(false);
-      return false;
-    }
-    if (
-      ctx.userData.users &&
-      !ctx.userData.users?.find((item) => item.email === email)
-    ) {
-      setStatus("Error: " + email + " is incorrect");
-      setFormValid(false);
-      return false;
-    }
-    if (!ctx.userData.users.find((item) => item.password === password)) {
-      setStatus("Error: " + password + " is incorrect");
-      setFormValid(false);
-      return false;
-    }
     ctx.loginUser({
       email,
       password,
     });
-
-    ctxCurrent.setCurrentUser(foundUser);
     setShow(false);
   }
 
