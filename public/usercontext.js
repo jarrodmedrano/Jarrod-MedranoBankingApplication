@@ -11,9 +11,9 @@ const UserContextProvider = (props) => {
     try {
       console.log("this user", user);
       const loginUser = user;
-      const url = `/account/login/${user.email}/${encodeURIComponent(
-        user.password
-      )}`;
+      const url = `/account/login/${encodeURIComponent(
+        user.email
+      )}/${encodeURIComponent(user.password)}`;
       (async () => {
         const res = await fetch(url);
         const data = await res.json();

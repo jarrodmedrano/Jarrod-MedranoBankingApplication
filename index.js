@@ -60,7 +60,6 @@ app.get("/account/create/:name/:email/:password", async function (req, res) {
 
     dal.create(user);
 
-    console.log(user);
     res.send(user);
     // }
   } catch (err) {
@@ -71,13 +70,17 @@ app.get("/account/create/:name/:email/:password", async function (req, res) {
 // login user
 app.get("/account/login/:email/:password", async function (req, res) {
   const { email, password } = req.params;
-  console.log("me", email);
 
   try {
     const foundUser = await dal.find(email);
 
     if (foundUser.length > 0) {
-      const isMatch = await bcrypt.compare(password, foundUser.password);
+      console.log("i am found", foundUser[0]);
+      // const isMatch = await bcrypt.compare(password, foundUser.password);
+
+      const isMatch = await bcrypt.compare(password, foundUser[0]?.password);
+
+      console.log("is match", isMatch);
       if (!isMatch)
         return res.status(400).json({
           message: "Incorrect Password !",
@@ -88,8 +91,6 @@ app.get("/account/login/:email/:password", async function (req, res) {
           id: foundUser.id,
         },
       };
-
-      console.log("payload", payload);
 
       jwt.sign(
         payload,
@@ -111,6 +112,7 @@ app.get("/account/login/:email/:password", async function (req, res) {
       });
     }
   } catch (e) {
+    console.error("SOME ERROR LOGGING IN 2", e);
     console.error(e);
     res.status(500).json({
       message: "Server Error",
@@ -121,7 +123,6 @@ app.get("/account/login/:email/:password", async function (req, res) {
 // find user account
 app.get("/account/find/:email", function (req, res) {
   dal.find(req.params.email).then((user) => {
-    console.log(user);
     res.send(user);
   });
 });
@@ -129,7 +130,6 @@ app.get("/account/find/:email", function (req, res) {
 // find one user by email - alternative to find
 app.get("/account/findOne/:email", function (req, res) {
   dal.findOne(req.params.email).then((user) => {
-    console.log(user);
     res.send(user);
   });
 });
@@ -139,7 +139,6 @@ app.get("/account/update/:email/:amount", function (req, res) {
   var amount = Number(req.params.amount);
 
   dal.update(req.params.email, amount).then((response) => {
-    console.log(response);
     res.send(response);
   });
 });
@@ -150,8 +149,6 @@ app.get("/account/all", async function (req, res) {
     const allOfThem = await dal.all();
 
     res.send(allOfThem);
-
-    console.log(allOfThem);
   } catch (err) {
     console.log("the error", err);
   }
