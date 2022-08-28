@@ -84,6 +84,7 @@ const UserContextProvider = (props) => {
     updateUser,
     getAllUsers,
     loginUser,
+    logoutUser,
   };
   return (
     <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
